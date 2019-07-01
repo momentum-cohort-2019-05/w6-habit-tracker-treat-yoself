@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- {% if request.user.is_authenticated %} -->
+{% for habit in habit_list %}
+
+{% if habit %}
+<ul>
+    <li>
+        Your goal is to {{ habit.activity }} {{habit.goal_num}} {{habit.unit}}.
+    </li>
+</ul>
+{% endif %}
+{% endfor %}
+<!-- {% endif %} -->
+
+{% endblock %}

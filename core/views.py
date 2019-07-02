@@ -20,16 +20,16 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-# def habit_detail(request, pk):
-#     habit = Habit.objects.get(pk=pk)
-#     habit_detail = habit.dailyrecord_set.all()
+def habit_detail(request, pk):
+    habit = Habit.objects.get(pk=pk)
+    habit_detail = habit.dailyrecord_set.all()
 
-#     context = {
-#         'habit': habit,
-#         'habit_detail': habit_detail,
-#     }
+    context = {
+        'habit': habit,
+        'habit_detail': habit_detail,
+    }
 
-#     return render(request, 'core/habit_detail.html', context=context)
+    return render(request, 'core/habit_detail.html', context=context)
 
 class HabitCreate(CreateView):
     model = Habit

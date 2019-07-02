@@ -4,6 +4,7 @@ from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from .forms import NewHabitForm, NewDailyRecordForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 # Create your views here.
@@ -45,7 +46,7 @@ def new_habit(request):
             obj.unit = form.cleaned_data['unit']
             obj.owner = request.user
             obj.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('core/habits/')
 
     # if GET (or any other method) create a blank form
     else:
@@ -60,12 +61,18 @@ def new_habit(request):
 def new_daily_record(request, pk):
     habit = get_object_or_404(Habit, id=pk)
 
+    # if habit.owner != request.user:
+    #     messages.warning(
+    #         request, "You tried to add a daily record to a habit that you do not own!")
+    #     return redirect('/')
+
     if request.method == 'POST':
         form = NewDailyRecordForm(request.POST)
         if form.is_valid():
             obj = DailyRecord()
             obj.num_achieved = form.cleaned_data['num_achieved']
             obj.date = form.cleaned_data['date']
+            obj.habit = habit
             obj.save()
             return HttpResponseRedirect('/')
 

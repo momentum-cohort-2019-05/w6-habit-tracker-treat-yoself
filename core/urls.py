@@ -8,7 +8,7 @@ urlpatterns = [
 
 # views for creating and deleting habits
 urlpatterns += [
-    path('habit/new/', views.new_habit, name='new-habit'),
+    path('habits/new/', views.new_habit, name='new-habit'),
     # path('habit/<int:pk>/delete/',
     #      views.HabitDelete.as_view(),
     #      name='habit-delete'),

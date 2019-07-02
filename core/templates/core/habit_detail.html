@@ -1,21 +1,28 @@
+
 {% extends "base.html" %}
 
 {% block content %}
-
-<div class ='center tc'> {{ activity }} Track. </div>
-<div class = 'center tc'> {{ num_goal }}</div>
+{% if request.user.is_authenticated %}
+{% for habit in habit_list %}
+<div class ='center tc avenir'> <h1>{{ habit.activity }} Track. </h1> </div>
+<div class = 'center tc avenir'> </p> Your goal: {{ habit.goal_num }} {{ habit.unit}}</p></div>
+{% endfor %}
+<div class="dt dt--fixed w-80 avenir center tc h2 fb1">
+        <div class="dtc bg-light-gray v-mid">Date</div>
+        <div class="dtc bg-light-gray v-mid">Completed</div>
+        <div class="dtc bg-light-gray v-mid">Achieved Goal</div>
+</div>
+<!-- {% for habit in habit_list %}
 
 <div class="dt dt--fixed w-80 avenir center tc">
-        <div class="dtc bg-light-gray">Date</div>
-        <div class="dtc bg-light-gray">Completed</div>
-        <div class="dtc bg-light-gray">Achieved Goal</div>
-</div>
-<div class="dt dt--fixed w-80 avenir center tc">
-        <div class="dtc">{{ date }}</div>
-        <div class="dtc">{{ num_achieved }} {{ unit }} </div>
-        <div class="dtc">{{ met_goal }}</div>
-        
-</div>
+        <div class="dtc">{{ dailyrecord.date }}</div>
+        <div class="dtc">{{ dailyrecord.num_achieved }} {{ unit }} </div>
+        {% if dailyrecord.num_achieved >= habit.goal_num %}
+        <div class="dtc success">You did it!</div> 
+        else: 
+        <div class="dtc fail">You need to work harder!</div> 
+        {% endif %}
+</div> -->
 
 
 {% endblock %}

@@ -2,17 +2,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if request.user.is_authenticated %}
-{% for habit in habit_list %}
+
 <div class ='center tc avenir'> <h1>{{ habit.activity }} Track. </h1> </div>
 <div class = 'center tc avenir'> </p> Your goal: {{ habit.goal_num }} {{ habit.unit}}</p></div>
-{% endfor %}
+
 <div class="dt dt--fixed w-80 avenir center tc h2 fb1">
         <div class="dtc bg-light-gray v-mid">Date</div>
         <div class="dtc bg-light-gray v-mid">Completed</div>
         <div class="dtc bg-light-gray v-mid">Achieved Goal</div>
 </div>
-<!-- {% for habit in habit_list %}
+
 
 <div class="dt dt--fixed w-80 avenir center tc">
         <div class="dtc">{{ dailyrecord.date }}</div>
@@ -22,7 +21,7 @@
         else: 
         <div class="dtc fail">You need to work harder!</div> 
         {% endif %}
-</div> -->
+</div>
 
 
 {% endblock %}

@@ -18,15 +18,19 @@ class Habit(models.Model):
     def __str__(self):
         return f"{self.activity} {self.goal_num} {self.unit}"
 
+    class Meta:
+        ordering = ['-date_started']
+
 
 class DailyRecord(models.Model):
-    num_achieved = models.PositiveIntegerField(default=0)
-    owner_habit = models.ForeignKey(to=Habit, on_delete=models.CASCADE)
     date = models.DateField(default=date.today)
-
-# need to change this string so it shows date and the input of the user that day
-    def __str__(self):
-        return f"{self.date} | {self.owner_habit}"
+    num_achieved = models.PositiveIntegerField(default=0)
+    goal_met = models.BooleanField(default=False)
+    habit = models.ForeignKey(to=Habit, on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        unique_together = ['date', 'owner_habit']
+        ordering = ['-date']
+        unique_together = ['habit', 'date']
+
+    def __str__(self):
+        return f"{self.date} | {self.num_achieved}"

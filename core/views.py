@@ -11,6 +11,7 @@ def index(request):
     View function for home page of site.
     """
     habit_list = Habit.objects.all()
+    # most_recent_record = habit.dailyrecord_set.order_by(‘-date’).first()
 
     context = {
         'habit_list': habit_list,
@@ -42,7 +43,7 @@ class HabitDelete(DeleteView):
 
 class DailyRecordCreate(CreateView):
     model = DailyRecord
-    fields = ['date', 'num_achieved']
+    fields = ['date', 'num_achieved', 'habit']
 
 
 class DailyRecordUpdate(UpdateView):

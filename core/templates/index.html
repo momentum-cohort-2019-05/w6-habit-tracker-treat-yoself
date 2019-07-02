@@ -11,10 +11,10 @@
         {% if habit %}
         <ul>
             <li>
-                Your goal was to {{ most_recent_habit }}.
+                Your goal was to {{ habit.activity }} {{habit.goal_num}} {{habit.unit}}.
             </li>
 
-            <li> Your actual numbers on: {{ most_recent_record }} </li>
+            <li> Your actual numbers on: {{ dailyrecord.date }} are {{ dailyrecord.num_achieved }} </li>
         </ul>
         {% endif %}
 

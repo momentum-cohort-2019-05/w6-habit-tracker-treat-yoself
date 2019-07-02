@@ -10,12 +10,11 @@ def index(request):
     """
     View function for home page of site.
     """
-    most_recent_habit = Habit.objects.order_by('-date_started').first()
-    most_recent_record = Habit.dailyrecord_set.order_by('-date').first()
+    habit_list = Habit.objects.all()
+    # most_recent_record = habit.dailyrecord_set.order_by(‘-date’).first()
 
     context = {
-        'most_recet_habit': most_recent_habit,
-        'most_recent_record': most_recent_record,
+        'habit_list': habit_list,
     }
 
     return render(request, 'index.html', context=context)
@@ -44,7 +43,7 @@ class HabitDelete(DeleteView):
 
 class DailyRecordCreate(CreateView):
     model = DailyRecord
-    fields = ['date', 'num_achieved']
+    fields = ['date', 'num_achieved', 'habit']
 
 
 class DailyRecordUpdate(UpdateView):

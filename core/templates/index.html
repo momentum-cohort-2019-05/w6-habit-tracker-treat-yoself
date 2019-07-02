@@ -2,17 +2,22 @@
 
 {% block content %}
 
-<!-- {% if request.user.is_authenticated %} -->
-{% for habit in habit_list %}
+<article class="center mw5 mw6-ns hidden ba mv4">
+        <h1 class="f4 bg-silver white mv0 pv2 ph3 tc avenir">Your daily activity</h1>
+        <div class="pa3 bt">
+         <!-- {% if request.user.is_authenticated %} -->
+            {% for habit in habit_list %}
 
-{% if habit %}
-<ul>
-    <li>
-        Your goal is to {{ habit.activity }} {{habit.goal_num}} {{habit.unit}}.
-    </li>
-</ul>
-{% endif %}
-{% endfor %}
-<!-- {% endif %} -->
+            {% if habit %}
+            <ul>
+                <li>
+                    Your goal is to {{ habit.activity }} {{habit.goal_num}} {{habit.unit}}.
+                </li>
+            </ul>
+            {% endif %}
+            {% endfor %}
+            <!-- {% endif %} -->
+        </div>
+      </article>
 
 {% endblock %}

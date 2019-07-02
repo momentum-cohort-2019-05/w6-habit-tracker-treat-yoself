@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="Create Daily Record" method="post">
+<form action="{% url 'new-record' habit.pk %}" method="POST">
     {% csrf_token %}
     <table>
         {{ form.as_table }}
     </table>
-    <input type="submit" value="Submit">
+    <p>
+        <button type="submit">Log Daily Record</button>
+    </p>
 </form>
 {% endblock %}

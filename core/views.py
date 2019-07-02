@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Habit, DailyRecord
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
-from .forms import NewHabitForm
+from .forms import NewHabitForm, NewDailyRecordForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -56,29 +56,23 @@ def new_habit(request):
     })
 
 
-# OLD MODELS FOR CREATE/UPDATE/DELETE
+@login_required
+def new_daily_record(request, pk):
+    habit = get_object_or_404(Habit, id=pk)
 
-# from django.views.generic.edit import CreateView, UpdateView, DeleteView
+    if request.method == 'POST':
+        form = NewDailyRecordForm(request.POST)
+        if form.is_valid():
+            obj = DailyRecord()
+            obj.num_achieved = form.cleaned_data['num_achieved']
+            obj.date = form.cleaned_data['date']
+            obj.save()
+            return HttpResponseRedirect('/')
 
-# class HabitCreate(CreateView):
-#     model = Habit
-#     fields = ['activity', 'goal_num', 'unit']
+    # if GET (or any other method) create a blank form
+    else:
+        form = NewDailyRecordForm()
 
-# class HabitDelete(DeleteView):
-#     model = Habit
-#     success_url = reverse_lazy('index')
-
-
-# class DailyRecordCreate(CreateView):
-#     model = DailyRecord
-#     fields = ['date', 'num_achieved', 'habit']
-
-
-# class DailyRecordUpdate(UpdateView):
-#     model = DailyRecord
-#     fields = ['date', 'num_achieved']
-
-
-# class DailyRecordDelete(DeleteView):
-#     model = DailyRecord
-#     success_url = reverse_lazy('index')
+    return render(request, 'core/dailyrecord_form.html', {
+        'form': form, 'habit': habit,
+    })

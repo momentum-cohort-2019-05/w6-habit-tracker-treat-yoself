@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Habit, DailyRecord
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
+from django.http import HttpResponseRedirect
+from .forms import NewHabitForm, NewDailyRecordForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -31,26 +35,51 @@ def habit_detail(request, pk):
 
     return render(request, 'core/habit_detail.html', context=context)
 
-class HabitCreate(CreateView):
-    model = Habit
-    fields = ['activity', 'goal_num', 'unit']
+@login_required
+def new_habit(request):
+    if request.method == 'POST':
+        form = NewHabitForm(request.POST)
+        if form.is_valid():
+            obj = Habit()
+            obj.activity = form.cleaned_data['activity']
+            obj.goal_num = form.cleaned_data['goal_num']
+            obj.unit = form.cleaned_data['unit']
+            obj.owner = request.user
+            obj.save()
+            return HttpResponseRedirect('core/habits/')
+
+    # if GET (or any other method) create a blank form
+    else:
+        form = NewHabitForm()
+
+    return render(request, 'core/habit_form.html', {
+        'form': form,
+    })
 
 
-class HabitDelete(DeleteView):
-    model = Habit
-    success_url = reverse_lazy('index')
+@login_required
+def new_daily_record(request, pk):
+    habit = get_object_or_404(Habit, id=pk)
 
+    # if habit.owner != request.user:
+    #     messages.warning(
+    #         request, "You tried to add a daily record to a habit that you do not own!")
+    #     return redirect('/')
 
-class DailyRecordCreate(CreateView):
-    model = DailyRecord
-    fields = ['date', 'num_achieved', 'habit']
+    if request.method == 'POST':
+        form = NewDailyRecordForm(request.POST)
+        if form.is_valid():
+            obj = DailyRecord()
+            obj.num_achieved = form.cleaned_data['num_achieved']
+            obj.date = form.cleaned_data['date']
+            obj.habit = habit
+            obj.save()
+            return HttpResponseRedirect('/')
 
+    # if GET (or any other method) create a blank form
+    else:
+        form = NewDailyRecordForm()
 
-class DailyRecordUpdate(UpdateView):
-    model = DailyRecord
-    fields = ['date', 'num_achieved']
-
-
-class DailyRecordDelete(DeleteView):
-    model = DailyRecord
-    success_url = reverse_lazy('index')
+    return render(request, 'core/dailyrecord_form.html', {
+        'form': form, 'habit': habit,
+    })

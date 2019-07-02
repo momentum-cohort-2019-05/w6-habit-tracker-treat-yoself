@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="Create Habit" method="post">
+<h1>Create new habit for {{ user }}</h1>
+
+<form action="{% url 'new-habit' %}" method="POST">
     {% csrf_token %}
     <table>
         {{ form.as_table }}
     </table>
-    <input type="submit" value="Submit">
+    <p>
+        <button type="submit">Create New Habit</button>
+    </p>
 </form>
 {% endblock %}

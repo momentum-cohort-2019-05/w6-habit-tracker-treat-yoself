@@ -28,7 +28,8 @@
         {% if habit and habit.owner == request.user %}
         <ul class="list">
             <li>
-                Your goal was to {{ habit.activity }} {{habit.goal_num}} {{habit.unit}}.
+                <a href="{% url 'habit-detail' habit.pk %}">Your goal is to {{ habit.activity }} {{habit.goal_num}}
+                    {{habit.unit}}.</a>
             </li>
         </ul>
 

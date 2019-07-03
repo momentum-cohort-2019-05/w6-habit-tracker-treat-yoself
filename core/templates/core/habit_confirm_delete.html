@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if request.user.is_authenticated and habit.owner == request.user%}
 
 <h1>Delete Habit</h1>
 
@@ -11,4 +12,16 @@
     <input type="submit" value="Yes, delete.">
 </form>
 
+{% elif request.user.is_authenticated %}
+<p>You are not authorized to delete a habit for this user.</p>
+{% else %}
+<ul>
+    <li>
+        <a href="{% url 'auth_login' %}">Login to Continue</a>
+    </li>
+    <li>
+        <a href="{% url 'registration_register' %}">Register to Track Habits</a>
+    </li>
+</ul>
+{% endif %}
 {% endblock %}

@@ -9,13 +9,18 @@ urlpatterns = [
 # views for creating and deleting habits
 urlpatterns += [
     path('habits/new/', views.new_habit, name='new-habit'),
-    # path('habit/<int:pk>/delete/',
-    #      views.HabitDelete.as_view(),
-    #      name='habit-delete'),
+    path('habits/<int:pk>/delete/',
+         views.HabitDelete.as_view(),
+         name='habit-delete'),
 ]
 
 # views for creating, updating, and deleting dailyrecords
-
 urlpatterns += [
     path('habits/<int:pk>/new/', views.new_daily_record, name='new-record'),
+    path('records/<int:pk>/update/',
+         views.DailyRecordUpdate.as_view(),
+         name='update-record'),
+    path('records/<int:pk>/delete/',
+         views.DailyRecordDelete.as_view(),
+         name='delete-record'),
 ]

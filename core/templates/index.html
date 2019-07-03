@@ -1,9 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class='tc avenir'> Habit Tracker</h1>   
+<h1 class='tc avenir'> Habit Tracker</h1>
 <p class='tc avenir f4'> Creating New Habits. Changing your life!</p>
 </div>
+
+{% if messages %}
+<div class="flex items-center justify-center pa4 bg-lightest-blue navy">
+    <svg class="w1" data-icon="info" viewBox="0 0 32 32" style="fill:currentcolor">
+        <title>info icon</title>
+        <path
+            d="M16 0 A16 16 0 0 1 16 32 A16 16 0 0 1 16 0 M19 15 L13 15 L13 26 L19 26 z M16 6 A3 3 0 0 0 16 12 A3 3 0 0 0 16 6">
+        </path>
+    </svg><span class="lh-title ml3">
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+    </span>
+</div>
+{% endif %}
 
 {% if request.user.is_authenticated %}
 <article class="center mw5 mw6-ns hidden ba mv4">
@@ -26,15 +41,14 @@
 
     </div>
 </article>
-    {% else %}
-
+{% else %}
 <article class="center mw5 mw6-ns hidden ba mv4">
-    <h1 class="f4 bg-blue white mv0 pv2 ph3 tc avenir">Change your life!<h1>
+    <h1 class="f4 bg-blue white mv0 pv2 ph3 tc avenir">Change your life!</h1>
     <div class="pa3 bt avenir">
-        <p> Habit tracker is a website that helps you live a better life by tracking how well you are sticking to your goals. </p>
-
+        <p> Habit tracker is a tool to improve your life by helping you keep track of your habits you want to start. </p>
     </div>
 </article>
+
 
 {% endif %}
 

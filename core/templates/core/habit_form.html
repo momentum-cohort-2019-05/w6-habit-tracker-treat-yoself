@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if request.user.is_authenticated %}
 <h1>Create new habit for {{ user }}</h1>
 
 <form action="{% url 'new-habit' %}" method="POST">
@@ -12,4 +13,9 @@
         <button type="submit">Create New Habit</button>
     </p>
 </form>
+
+{% else %}
+<a href="{% url 'auth_login' %}">Login to Continue</a>
+<a href="{% url 'registration_register' %}">Register to Track Habits</a>
+{% endif %}
 {% endblock %}

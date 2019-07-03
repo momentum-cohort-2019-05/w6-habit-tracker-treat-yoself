@@ -6,6 +6,7 @@ from .forms import NewHabitForm, NewDailyRecordForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from datetime import date
 
 # Create your views here.
 
@@ -23,6 +24,7 @@ def index(request):
 
     return render(request, 'index.html', context=context)
 
+
 def user_profile(request):
     habit_list = Habit.objects.all()
 
@@ -31,6 +33,7 @@ def user_profile(request):
     }
 
     return render(request, 'core/user_profile.html', context=context)
+
 
 def habit_detail(request, pk):
     habit = Habit.objects.get(pk=pk)
@@ -42,7 +45,7 @@ def habit_detail(request, pk):
     context = {
         'habit': habit,
         'habit_detail': habit_detail,
-        'records_list' : records_list,
+        'records_list': records_list,
     }
 
     return render(request, 'core/habit_detail.html', context=context)
@@ -59,7 +62,7 @@ def new_habit(request):
             obj.unit = form.cleaned_data['unit']
             obj.owner = request.user
             obj.save()
-            return HttpResponseRedirect('core/habits/')
+            return redirect(to='user-profile')
 
     # if GET (or any other method) create a blank form
     else:
@@ -78,6 +81,11 @@ class HabitDelete(DeleteView):
 @login_required
 def new_daily_record(request, pk):
     habit = get_object_or_404(Habit, id=pk)
+    record_date = request.POST.get('date', date.today())
+    try:
+        record = habit.dailyrecord_set.get(date=record_date)
+    except DailyRecord.DoesNotExist:
+        record = DailyRecord(habit=habit, date=record_date)
 
     if habit.owner != request.user:
         messages.warning(
@@ -85,21 +93,20 @@ def new_daily_record(request, pk):
         return redirect('/')
 
     if request.method == 'POST':
-        form = NewDailyRecordForm(request.POST)
+        form = NewDailyRecordForm(request.POST, instance=record)
         if form.is_valid():
-            obj = DailyRecord()
-            obj.num_achieved = form.cleaned_data['num_achieved']
-            obj.date = form.cleaned_data['date']
-            obj.habit = habit
-            obj.save()
-            return HttpResponseRedirect('/')
+            record.num_achieved = form.cleaned_data['num_achieved']
+            record.date = form.cleaned_data['date']
+            record.habit = habit
+            record.save()
+            return redirect(to='habit-detail', pk=habit.pk)
 
     # if GET (or any other method) create a blank form
     else:
-        form = NewDailyRecordForm()
+        form = NewDailyRecordForm(instance=record)
 
     return render(request, 'core/dailyrecord_form.html', {
-        'form': form, 'habit': habit,
+        'form': form, 'habit': habit, 'record': record,
     })
 
 

@@ -28,7 +28,7 @@
         {% if habit and habit.owner == request.user %}
         <ul class="list">
             <li>
-                <a href="{% url 'habit-detail' habit.pk %}">Your goal is to {{ habit.activity }} {{habit.goal_num}}
+                <a class="f4 dim near-black" href="{% url 'habit-detail' habit.pk %}">Your goal is to {{ habit.activity }} {{habit.goal_num}}
                     {{habit.unit}}.</a>
             </li>
         </ul>
@@ -38,12 +38,10 @@
     </div>
 </article>
 
-<article class="center mw5 mw6-ns hidden ba mv4">
-    <div class="pa3 bt avenir">
-        <a href="{% url 'new-habit' %}">Add a New Habit</a>
+<article class="center tc avenir">
+    <div class="pa3">
+        <a class="f4 grow no-underline br-pill ph3 pv2 mb2 dib white bg-dark-blue" href="{% url 'new-habit' %}">Add a New Habit</a>
     </div>
 </article>
-
-
 
 {% endblock %}

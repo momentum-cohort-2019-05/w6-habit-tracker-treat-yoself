@@ -7,11 +7,11 @@
     <h1>{{ habit.activity|title}} Record </h1>
 </div>
 <div class='center tc avenir'>
-    </p> Your goal: {{ habit.goal_num }} {{ habit.unit}}</p>
+    <p class="f4"> Your goal: {{ habit.goal_num }} {{ habit.unit}}</p>
 </div>
 
 <div class = "pa4 center tc">
-        <a class="f5 grow no-underline br-pill ph3 pv2 mb2 dib white bg-dark-blue" href="{% url 'new-record' habit.pk %}">Add / Update Daily Records</a>
+        <a class="f4 grow no-underline br-pill ph3 pv2 mb2 dib white bg-dark-blue" href="{% url 'new-record' habit.pk %}">Add / Update Daily Records</a>
 </div>
 
 <div class="dt dt--fixed w-80 avenir center tc h2 fb1">
@@ -21,16 +21,20 @@
 </div>
 
 {% for record in records_list %}
-<div class="dt dt--fixed w-80 avenir center tc pa2">
+<div class="dt dt--fixed w-80 avenir center tc pa2 br4">
     <div class="dtc">{{ record.date }}</div>
     <div class="dtc">{{ record.num_achieved }} {{ habit.unit }} </div>
     {% if record.num_achieved >= habit.goal_num %}
-    <div class="dtc success">You did it!</div>
+    <div class="dtc bg-green white pa2 br3">You did it!</div>
     {% else %}
-    <div class="dtc fail">You need to work harder!</div>
+    <div class="dtc bg-red white pa2 br3">You need to work a little harder...</div>
     {% endif %}
 </div>
 {% endfor %}
 {% endif %}
+
+<div class = "pa4 center tc">
+    <a class="dim near-black" href="{% url 'user-profile' %}">Return to your profile</a>
+</div>
 
 {% endblock %}

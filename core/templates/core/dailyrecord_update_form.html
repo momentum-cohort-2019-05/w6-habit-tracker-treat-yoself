@@ -3,19 +3,19 @@
 {% block content %}
 {% if request.user.is_authenticated and habit.owner == request.user%}
 
-<h1>Create Daily Record for {{habit}}</h1>
+<h1>Update record for {{habit}}</h1>
 
-<form action="{% url 'new-record' habit.pk %}" method="POST">
+<form method="POST">
     {% csrf_token %}
     <table>
         {{ form.as_table }}
     </table>
     <p>
-        <button type="submit">Log Daily Record</button>
+        <button type="submit">Update Daily Record</button>
     </p>
 </form>
 {% elif request.user.is_authenticated %}
-<p>You are not authorized to create a record for this habit.</p>
+<p>You are not authorized to update a record for this habit.</p>
 {% else %}
 <ul>
     <li>

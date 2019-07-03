@@ -1,11 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Habit, DailyRecord
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from .forms import NewHabitForm, NewDailyRecordForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 # Create your views here.
 
@@ -35,6 +35,7 @@ def habit_detail(request, pk):
 
     return render(request, 'core/habit_detail.html', context=context)
 
+
 @login_required
 def new_habit(request):
     if request.method == 'POST':
@@ -57,14 +58,19 @@ def new_habit(request):
     })
 
 
+class HabitDelete(DeleteView):
+    model = Habit
+    success_url = reverse_lazy('index')
+
+
 @login_required
 def new_daily_record(request, pk):
     habit = get_object_or_404(Habit, id=pk)
 
-    # if habit.owner != request.user:
-    #     messages.warning(
-    #         request, "You tried to add a daily record to a habit that you do not own!")
-    #     return redirect('/')
+    if habit.owner != request.user:
+        messages.warning(
+            request, "You tried to add a daily record to a habit that you do not own!")
+        return redirect('/')
 
     if request.method == 'POST':
         form = NewDailyRecordForm(request.POST)
@@ -83,3 +89,14 @@ def new_daily_record(request, pk):
     return render(request, 'core/dailyrecord_form.html', {
         'form': form, 'habit': habit,
     })
+
+
+class DailyRecordUpdate(UpdateView):
+    model = DailyRecord
+    fields = ['date', 'num_achieved']
+    template_name_suffix = '_update_form'
+
+
+class DailyRecordDelete(DeleteView):
+    model = DailyRecord
+    success_url = reverse_lazy('index')

@@ -10,8 +10,8 @@
     </p> Your goal: {{ habit.goal_num }} {{ habit.unit}}</p>
 </div>
 
-<div>
-    <a href="{% url 'new-record' habit.pk %}">Add / Update Daily Records</a>
+<div class = "pa4 center tc">
+        <a class="f5 grow no-underline br-pill ph3 pv2 mb2 dib white bg-dark-blue" href="{% url 'new-record' habit.pk %}">Add / Update Daily Records</a>
 </div>
 
 <div class="dt dt--fixed w-80 avenir center tc h2 fb1">
@@ -21,7 +21,7 @@
 </div>
 
 {% for record in records_list %}
-<div class="dt dt--fixed w-80 avenir center tc">
+<div class="dt dt--fixed w-80 avenir center tc pa2">
     <div class="dtc">{{ record.date }}</div>
     <div class="dtc">{{ record.num_achieved }} {{ habit.unit }} </div>
     {% if record.num_achieved >= habit.goal_num %}

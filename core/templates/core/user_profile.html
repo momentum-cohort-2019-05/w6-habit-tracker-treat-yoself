@@ -24,22 +24,25 @@
     <h1 class="f4 bg-blue white mv0 pv2 ph3 tc avenir">Your Goals!</h1>
     <div class="pa3 bt avenir">
 
-    {% for habit in habit_list %}
+        {% for habit in habit_list %}
         {% if habit and habit.owner == request.user %}
         <ul class="list">
             <li>
                 Your goal was to {{ habit.activity }} {{habit.goal_num}} {{habit.unit}}.
             </li>
         </ul>
-    
-        {% endif %} 
-    {% endfor %}
+
+        {% endif %}
+        {% endfor %}
     </div>
 </article>
-        
+
+<article class="center mw5 mw6-ns hidden ba mv4">
+    <div class="pa3 bt avenir">
+        <a href="{% url 'new-habit' %}">Add a New Habit</a>
+    </div>
+</article>
 
 
-            
- 
 
 {% endblock %}

@@ -23,14 +23,26 @@ def index(request):
 
     return render(request, 'index.html', context=context)
 
+def user_profile(request):
+    habit_list = Habit.objects.all()
+
+    context = {
+        'habit_list': habit_list,
+    }
+
+    return render(request, 'core/user_profile.html', context=context)
 
 def habit_detail(request, pk):
     habit = Habit.objects.get(pk=pk)
     habit_detail = habit.dailyrecord_set.all()
+    records_list = []
+    for record in DailyRecord.objects.filter(habit=habit):
+        records_list.append(record)
 
     context = {
         'habit': habit,
         'habit_detail': habit_detail,
+        'records_list' : records_list,
     }
 
     return render(request, 'core/habit_detail.html', context=context)

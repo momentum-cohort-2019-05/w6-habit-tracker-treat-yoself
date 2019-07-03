@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if request.user.is_authenticated and habit.owner == request.user%}
+{% if request.user.is_authenticated and habit.owner == request.user %}
 
 <h1>Create Daily Record for {{habit}}</h1>
 

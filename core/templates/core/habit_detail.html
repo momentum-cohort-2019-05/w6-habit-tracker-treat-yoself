@@ -2,6 +2,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if request.user.is_authenticated and habit.owner == request.user %}
 
 <div class ='center tc avenir'> <h1>{{ habit.activity|title}} Record </h1> </div>
 <div class = 'center tc avenir'> </p> Your goal: {{ habit.goal_num }} {{ habit.unit}}</p></div>
@@ -12,16 +13,17 @@
         <div class="dtc bg-light-gray v-mid">Achieved Goal</div>
 </div>
 
-
+{% for record in records_list %}
 <div class="dt dt--fixed w-80 avenir center tc">
-        <div class="dtc">{{ dailyrecord.date }}</div>
-        <div class="dtc">{{ dailyrecord.num_achieved }} {{ unit }} </div>
-        {% if dailyrecord.num_achieved >= habit.goal_num %}
+        <div class="dtc">{{ record.date }}</div>
+        <div class="dtc">{{ record.num_achieved }} {{ habit.unit }} </div>
+        {% if record.num_achieved >= habit.goal_num %}
         <div class="dtc success">You did it!</div> 
-        else: 
+        {% else %}
         <div class="dtc fail">You need to work harder!</div> 
         {% endif %}
 </div>
+{% endfor %}
+{% endif %}
 
-
-{% endblock %}
+{% endblock %}  

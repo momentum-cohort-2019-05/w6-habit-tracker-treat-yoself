@@ -6,12 +6,16 @@
 
 <form action="{% url 'new-habit' %}" method="POST">
     {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <p>
-        <button type="submit">Create New Habit</button>
+    <label for="{{ form.activity.id_for_label }}">My new goal is to:</label>
+    <p><input type="text" name="activity" id="{{ form.activity.id_for_label }}" name="{{ form.activity.html_name }}">
     </p>
+
+    <label for="{{ form.goal_num.id_for_label }}">this many:</label>
+    <p><input type="number" id="{{ form.goal_num.id_for_label }}" name="{{ form.goal_num.html_name }}"></p>
+
+    <label for=" {{ form.unit.id_for_label }}">whats? (steps, lines of code, salads, etc.)</label>
+    <p><input type="text" id="{{ form.unit.id_for_label }}" name="{{ form.unit.html_name }}"></p>
+    <button type="submit">Create New Habit</button>
 </form>
 
 {% else %}
